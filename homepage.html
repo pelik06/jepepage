@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEPEPAGE | HOMEPAGE</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+
+    <style>
+        .navbar {
+            background-color: #ffffff73;
+            color: rgba(0, 132, 255, 1);
+            padding: 10px 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            transition: transform 0.3s ease-in-out;
+            letter-spacing: 5px;
+            font-size: 1rem;
+        }
+
+        .navbar .logo {
+            padding-right: 50px;
+            letter-spacing: -7px;
+        }
+
+        .navbar .logo span {
+            display: inline-block;
+            transition: all 0.4s ease-in-out;
+            cursor: default;
+        }
+
+        .navbar .logo span:hover {
+            transform: translateY(-6px);
+        }
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        #wave-button a span {
+            position: relative;
+            display: inline-block;
+            transition: transform 1s ease-out;
+        }
+
+        #wave-button a {
+            transition: all 0.3s ease-in-out;
+            padding-bottom: 1px;
+        }
+
+        #wave-button a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0.5px;
+            background-color: rgba(0, 132, 255, 1);
+            transition: width 0.3s ease-in-out;
+        }
+
+        #wave-button a:hover::after {
+            width: 100%;
+        }
+
+        #wave-button a:hover {
+            transform: scale(1.1);
+        }
+
+        #wave-button a:hover span {
+            animation: wave 1.5s infinite;
+            animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        @font-face {
+            font-family: 'CodigraRegular';
+            src: url('fonts/CodigraRegular-GOAeq.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'NewRomantics';
+            src: url('fonts/ROMANTIC.TTF') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'MagicRetro';
+            src: url('fonts/Magic Retro.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'StretchPro';
+            src: url('fonts/StretchPro.otf') format('opentype');
+        }
+
+        .font-codigra {
+            font-family: 'CodigraRegular', sans-serif;
+        }
+
+        .font-romantics {
+            font-family: 'NewRomantics', sans-serif;
+        }
+
+        .font-magicRetro {
+            font-family: 'MagicRetro', sans-serif;
+        }
+
+        .font-stretchPro {
+            font-family: 'StretchPro', sans-serif;
+        }
+
+        .about-image img {
+            border-radius: 100%;
+        }
+
+        .img-hover {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .about-image:hover .img-hover {
+            filter: grayscale(80%) blur(2px);
+        }
+
+        .about-image:hover .img-hover:hover {
+            transform: scale(1.1);
+            box-shadow: 0 20px 30px rgba(0, 195, 255, 0.64);
+            z-index: 1000;
+            filter: none;
+        }
+
+        .carousel {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .carousel .slider {
+            position: absolute;
+            width: 30vw;
+            height: 40vw;
+            top: calc(50% - 35vw);
+            left: calc(50% - 15vw);
+            transform-style: preserve-3d;
+            transform: rotateX(-15deg) perspective(1500px);
+            transition: transform 1s ease-in-out;
+            z-index: 5;
+        }
+
+        .carousel .slider .item {
+            position: absolute;
+            inset: 0 0 0 0;
+            transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(45vw);
+        }
+
+        .carousel .slider .item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .model {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            height: 50vw;
+            width: 100vw;
+            left: calc(50% - 50vw);
+            top: calc(50% - 5vw);
+            z-index: 1;
+        }
+
+        .carousel .content {
+            padding: 30px;
+            line-height: 0.6;
+            z-index: 20;
+            background: linear-gradient(to right, #e0b0ff, #c8a2c8, #a7d9f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(224, 176, 255, 0.8), 0 0 20px rgba(200, 162, 200, 0.6), 0 0 30px rgba(167, 217, 247, 0.4);
+        }
+
+        @media (min-width: 768px) {
+            .carousel .slider {
+                position: absolute;
+                width: 10vw;
+                height: 17vw;
+                left: calc(50% - 5vw);
+                top: calc(31% - 8.5vw);
+                transform-style: preserve-3d;
+                transform: rotateX(-15deg) perspective(1500px);
+                transition: transform 1s ease-in-out;
+                z-index: 3;
+            }
+
+            .carousel .slider .item {
+                width: 10vw;
+                height: 17vw;
+                transform: rotateY(calc((var(--position) - 1) * (360 / var(--quantity)) * 1deg)) translateZ(30vw);
+            }
+
+            .model {
+                position: absolute;
+                height: 50vw;
+                width: 60vw;
+                left: calc(50% - 30vw);
+                top: calc(50% - 17vw);
+                z-index: 0;
+            }
+        }
+
+        #prev, #next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            /* KOSONGKAN BACKGROUND di elemen utama */
+            background: transparent;
+            color: white;
+            font-size: x-large;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* ::before tetap menjadi BORDER BERPUTAR.
+        Kita letakkan di lapisan paling belakang (z-index: -2) */
+        #prev::before,
+        #next::before {
+            content: '';
+            position: absolute;
+            z-index: -2; /* Paling belakang */
+            
+            width: 54px;
+            height: 54px;
+            top: -2px;
+            left: -2px;
+
+            background: conic-gradient(
+                #ff79da, 
+                #9370db, 
+                #8a2be2, 
+                #ff79da
+            );
+            animation: spin 1.5s linear infinite;
+            
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        /* ::after kita jadikan sebagai BACKGROUND SOLID.
+        Posisinya di atas border, tapi di bawah teks (z-index: -1) */
+        #prev::after,
+        #next::after {
+            content: '';
+            position: absolute;
+            z-index: -1; /* Di tengah */
+            
+            /* Ukurannya sama persis dengan tombol */
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+
+            /* PINDAHKAN background asli ke sini */
+            background: linear-gradient(90deg, hsla(302, 82%, 76%, 1) 0%, hsla(258, 40%, 68%, 1) 100%);
+            border-radius: 50%;
+        }
+
+
+        /* Bagian hover dan keyframes tetap sama */
+        #prev:hover::before,
+        #next:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        #prev { left: 20px; }
+        #next { right: 20px; }
+    </style>
+</head>
+
+<body>
+    <header class="navbar md:grid md:grid-cols-[auto_1fr_auto] items-center backdrop-blur-sm">
+        <div class="flex flex-row items-center"> <img src="assets/logo.svg" alt="logo" class="w-10 h-10 mr-3"> <div class="logo font-stretchPro uppercase text-[1.5rem] border-r-2 justify-self-start space-x-2"> <span>J</span><span>l</span><span>u</span><span>v</span> </div> </div> <div class="nav-links font-romantics flex flex-col md:flex-row gap-5 md:gap-[3rem] justify-self-center" id="wave-button"> <a href="/homepage.html#about">About</a> <a href="/homepage.html#gallery">Gallery</a> <a href="/journey.html">Journey</a> <a href="https://www.notion.so/Home-256732faf4428068b54ce4ac45be698a?source=copy_link">Notion</a> <a href="/birthday.html">PressMe</a> </div> <div class="justify-self-end"> <a href=""><img src="/assets/avatar.jpg" alt="" class="rounded-full overflow-hidden w-10 h-10 hover:scale-125 transition-transform ease-in-out duration-500"></a> </div>
+    </header>
+
+    <div id="home" class="flex justify-center items-center h-screen">
+        <div class="w-[100%] h-[100%] overflow-hidden z-[-1]">
+            <video src="assets/vid-bg-blue.mp4" autoplay muted loop playsinline class="object-cover w-full h-full"></video>
+        </div>
+        <div class="jep-corner absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full flex justify-center items-center z-1">
+            <img src="assets/jepepi-corner.gif" alt="text-gif" class="w-[80%]">
+        </div>
+    </div>
+
+    <div id="about" class="relative min-h-screen z-10 bg-blue-300 md:p-[5vh] p-3 justify-center">
+        <div class="flex flex-col items-end p-5 h-screen mt-5 justify-center">
+            <div class="md-about-header">
+                <div class="flex flex-row gap-2 items-center">
+                    <span class="font-romantics text-[2rem] md:text-[5rem] font-bold mb-4 tracking-[10px]">About Us</span>
+                    <span>—</span>
+                    <span class="font-serif text-[0.5rem] md:text-[1rem]">est. 2024</span>
+                </div>
+            </div>
+            <div class="about-content w-full flex md:flex-row flex-col items-center justify-evenly lg:justify-between gap-5">
+                <div class="about-image flex md:flex-col flex-row items-center justify-center md:w-[30vw] w-[25vw] md:relative gap-4">
+                    <img src="assets/about/1.jpg" alt="about-1" class="img-hover lg:w-[17vw] lg:absolute lg:-top-[45vh] lg:left-[5vw] lg:-rotate-10">
+                    <img src="assets/about/2.jpg" alt="about-2" class="img-hover lg:absolute lg:-top-[40vh] lg:left-[18vw]">
+                    <img src="assets/about/3.jpg" alt="about-3" class="img-hover lg:w-[15vw] lg:absolute lg:-top-[20vh] lg:left-[0vw] lg:w-[25vw] z-10">
+                </div>
+                <div class="md-about-text text-right md:w-[40%]">
+                    <p class="pb-[8vh] border-b border-black font-serif lg:pt-3 lg:mt-0 md:-mt-[30vh]">
+                        Meet us! We are a lovely couple who loves each other wholeheartedly. From our first meeting to our latest memories, we have built a life filled with joy and cutesy. We cherish every moment together, supporting and inspiring each other through life's adventures. Our journey has just begun, and we can't wait to see what the future holds. Here is a glimpse into our beautiful story.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gallery" class="h-screen overflow-y-hidden">
+        <div class="carousel">
+            <div class="slider" style="--quantity: 9">
+                <div class="item" style="--position: 1"><img src="assets/carousel/1.jpg" alt=""></div>
+                <div class="item" style="--position: 2"><img src="assets/carousel/2.jpg" alt=""></div>
+                <div class="item" style="--position: 3"><img src="assets/carousel/3.jpg" alt=""></div>
+                <div class="item" style="--position: 4"><img src="assets/carousel/4.jpg" alt=""></div>
+                <div class="item" style="--position: 5"><img src="assets/carousel/5.jpg" alt=""></div>
+                <div class="item" style="--position: 6"><img src="assets/carousel/6.jpg" alt=""></div>
+                <div class="item" style="--position: 7"><img src="assets/carousel/7.jpg" alt=""></div>
+                <div class="item" style="--position: 8"><img src="assets/carousel/8.jpg" alt=""></div>
+                <div class="item" style="--position: 9"><img src="assets/carousel/9.jpg" alt=""></div>
+            </div>
+
+            <span class="content font-romantics absolute top-[80%] md:left-[5%] md:translate-0 left-[50%] -translate-1/2 md:text-[8rem] text-[7rem] tracking-[5px] text-center" data-content="Our Gallery">Our Gallery</span>
+
+            <div class="model">
+                <img src="assets/carousel/heart-model.svg" alt="">
+            </div>
+
+            <div class="arrows">
+                <button id="prev">
+                    <img src="assets/left-arrow.png" alt="" class="w-4 h-4">
+                </button>
+                <button id="next">
+                    <img src="assets/right-arrow.png" alt="" class="w-4 h-4">
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const storedSessionJSON = localStorage.getItem('userSession');
+            let sessionData = null;
+            if (storedSessionJSON) {
+                sessionData = JSON.parse(storedSessionJSON);
+            }
+            if (sessionData && sessionData.isLoggedIn === true) {
+            } else {
+                window.location.href = 'login.html';
+            }
+
+            const navLinks = document.querySelectorAll('#wave-button a');
+            navLinks.forEach(link => {
+                const text = link.textContent.trim();
+                link.innerHTML = '';
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.style.animationDelay = `${index * 0.1}s`;
+                    link.appendChild(span);
+                });
+            });
+
+            gsap.registerPlugin(ScrollTrigger);
+            
+            gsap.to(".jep-corner", {
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    scrub: 1,
+                    pinSpacing: false
+                },
+                y: 500,
+                opacity: 0,
+                duration: 0.2
+            });
+
+            gsap.fromTo(".md-about-header, .md-about-text", { 
+                opacity: 0,
+                y: "-10vh"
+            }, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 80%",
+                    end: "top 30%",
+                    scrub: 1.5
+                }
+            });
+
+            gsap.fromTo(".about-image", { 
+                opacity: 0,
+                x: "-10vw"
+            }, {
+                opacity: 1,
+                x: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 80%",
+                    end: "top 30%",
+                    scrub: 1.5
+                }
+            });
+
+            gsap.fromTo(".carousel", {
+                opacity: 0,
+                y: 200
+            }, {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: "#gallery",
+                    start: "top 80%",
+                    end: "top 40%",
+                    scrub: 1
+                }
+            });
+
+            const slider = document.querySelector('.carousel .slider');
+            const prevBtn = document.getElementById('prev');
+            const nextBtn = document.getElementById('next');
+            const items = document.querySelectorAll('.carousel .slider .item');
+            const totalItems = items.length;
+            const angleIncrement = 360 / totalItems;
+            let currentAngle = 0;
+            let autoRunInterval;
+            let restartTimeout;
+
+            function autoRun() {
+                autoRunInterval = setInterval(() => {
+                    currentAngle -= angleIncrement;
+                    slider.style.transform = `rotateX(-15deg) perspective(1500px) rotateY(${currentAngle}deg)`; 
+                }, 2500);
+            }
+
+            function rotateCarousel(direction) {
+                clearInterval(autoRunInterval);
+                clearTimeout(restartTimeout);
+                currentAngle += direction * angleIncrement;
+                slider.style.transform = `rotateX(-15deg) perspective(1000px) rotateY(${currentAngle}deg)`;   
+                restartTimeout = setTimeout(() => {
+                    autoRun();
+                }, 10000);
+            }
+
+            prevBtn.addEventListener('click', () => {
+                rotateCarousel(1);
+            });
+
+            nextBtn.addEventListener('click', () => {
+                rotateCarousel(-1);
+            });
+
+            autoRun();
+        });
+    </script>
+</body>
+</html>

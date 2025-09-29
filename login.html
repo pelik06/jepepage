@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEPEPAGE | LOGIN</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <style>
+        /* CSS tetap sama seperti sebelumnya, tidak ada perubahan */
+        body, html {
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        @font-face {
+            font-family: 'CodigraRegular';
+            src: url('fonts/CodigraRegular-GOAeq.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+
+        @font-face {
+            font-family: 'NewRomantics';
+            src: url('fonts/ROMANTIC.TTF') format('truetype');
+        }
+
+
+        @font-face {
+            font-family: 'MagicRetro';
+            src: url('fonts/Magic Retro.ttf') format('truetype');
+        }
+
+
+        @font-face {
+            font-family: 'StretchPro';
+            src: url('fonts/StretchPro.otf') format('opentype');
+        }
+
+
+        .font-codigra {
+            font-family: 'CodigraRegular', sans-serif;
+        }
+
+
+        .font-romantics {
+            font-family: 'NewRomantics', sans-serif;
+        }
+
+
+        .font-magicRetro {
+            font-family: 'MagicRetro', sans-serif;
+        }
+
+
+        .font-stretchPro {
+            font-family: 'StretchPro', sans-serif;
+        }
+
+
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 35vh;
+            width: 25vw;
+        }
+
+
+        body {
+            background: url('assets/bg-sky.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+
+        .auth-container {
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+
+        @keyframes wave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px); /* Atur seberapa tinggi gelombangnya */
+            }
+            /* 80% {
+                transform: translateY(2px);
+            } */
+        }
+
+
+        #wave-button span {
+            position: relative;
+            display: inline-block;
+            transition: transform 1s ease-out; /* Efek halus saat hover berhenti */
+        }
+
+
+        #wave-button {
+            transition: all 0.3s ease-in-out;
+        }
+
+
+        /* Saat tombol dihover, jalankan animasi pada setiap span */
+        #wave-button:hover {
+            scale: 1.1;
+            span {
+                animation: wave 1.5s infinite;
+                animation-delay: calc(var(--i) * 0.1s);
+            }
+        }
+        .login-trigger-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .login-trigger-btn:hover {
+            background-color: #2563eb;
+            transform: scale(1.05);
+        }
+        .modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--overlay-color);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-container.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-dialog {
+            background-color: var(--modal-bg);
+            padding: 2rem 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+        .modal-container.show .modal-dialog {
+            transform: scale(1);
+        }
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #aaa;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+        .close-btn:hover {
+            color: #333;
+        }
+        .modal-form h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: var(--text-color);
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #2563eb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="h-screen w-screen flex items-center justify-center backdrop-blur-sm">
+        <div class="auth-container flex flex-col items-center justify-center gap-2">
+            <p class="font-codigra uppercase text-[3rem] text-slate-700">Login</p>
+            <button id="wave-button" class="font-romantics tracking-[5px] px-4 py-2 bg-blue-300 text-white rounded inline-block">
+                Login with Email
+            </button>
+        </div>
+    </div>
+
+
+
+    <div id="login-modal-container" class="modal-container backdrop-blur-lg">
+        <div class="modal-dialog">
+            <button id="close-modal-btn" class="close-btn">&times;</button>
+            <form id="login-form" class="modal-form">
+                <h2 class="font-codigra">Welcome Back!</h2>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="submit-btn">Sign In</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const waveButton = document.getElementById('wave-button');
+            const text = waveButton.textContent.trim();
+            waveButton.innerHTML = '';
+            text.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                span.textContent = char === ' ' ? '\u00A0' : char;
+                span.style.setProperty('--i', index);
+                waveButton.appendChild(span);
+            });
+            // <<< [1] TENTUKAN AKUN HARDCODE DI SINI
+            const HARDCODED_EMAIL = 'user@example.com';
+            const HARDCODED_PASSWORD = 'password123';
+
+            const openModalBtn = document.getElementById('wave-button');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const modalContainer = document.getElementById('login-modal-container');
+            const loginForm = document.getElementById('login-form');
+
+            function openModal() {
+                modalContainer.classList.add('show');
+            }
+
+            function closeModal() {
+                modalContainer.classList.remove('show');
+            }
+
+            openModalBtn.addEventListener('click', openModal);
+            closeModalBtn.addEventListener('click', closeModal);
+
+            modalContainer.addEventListener('click', (event) => {
+                if (event.target === modalContainer) {
+                    closeModal();
+                }
+            });
+
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && modalContainer.classList.contains('show')) {
+                    closeModal();
+                }
+            });
+
+            // <<< [2] UBAH LOGIKA PENANGANAN FORM SUBMIT
+            loginForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Mencegah reload halaman
+
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                // Periksa apakah email dan password cocok dengan data hardcode
+                if (email === HARDCODED_EMAIL && password === HARDCODED_PASSWORD) {
+                    const userSession = {
+                        isLoggedIn: true,
+                        email: email,
+                        loginTime: new Date() // Menyimpan waktu login sebagai contoh
+                    };
+
+                    // 2. Simpan objek tersebut ke localStorage sebagai string JSON
+                    localStorage.setItem('userSession', JSON.stringify(userSession));
+                    window.location.href = "homepage.html";
+                    closeModal();      // Tutup modal
+                    loginForm.reset(); // Kosongkan isi form
+                } else {
+                    // Jika tidak cocok, tampilkan pesan error
+                    alert('Email atau password salah. Silakan coba lagi.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

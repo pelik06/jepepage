@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEPEPAGE | Coming Soon</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    
+    <style>
+        /* Impor font-face Anda */
+        @font-face {
+            font-family: 'StretchPro';
+            src: url('fonts/StretchPro.otf') format('opentype');
+        }
+        @font-face {
+            font-family: 'NewRomantics';
+            src: url('fonts/ROMANTIC.TTF') format('truetype');
+        }
+        .font-stretchPro { font-family: 'StretchPro', sans-serif; }
+        .font-romantics { font-family: 'NewRomantics', sans-serif; }
+
+        /* Latar Belakang Biru Langit & Bintang */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at top, #87CEEB 0%, #007bff 100%);
+            z-index: -1;
+        }
+
+        @keyframes animate-stars {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-2000px); }
+        }
+
+        /* === BINTANG DIPERBANYAK DI SINI === */
+        .stars1 {
+            width: 1px; height: 1px;
+            background: transparent;
+            box-shadow: 
+                -373px -389px #E0E0E0, 172px -454px #E0E0E0, 10px -310px #E0E0E0, -429px -216px #E0E0E0, -325px -34px #E0E0E0, 
+                -384px -341px #E0E0E0, 452px -321px #E0E0E0, 482px -340px #E0E0E0, 243px 255px #E0E0E0, 12px 14px #E0E0E0, 
+                -352px -339px #E0E0E0, 24px -14px #E0E0E0, 439px 406px #E0E0E0, -129px -25px #E0E0E0, 49px -325px #E0E0E0,
+                512px 234px #E0E0E0, -800px 150px #E0E0E0, 100px -950px #E0E0E0, -621px 734px #E0E0E0, 444px -888px #E0E0E0,
+                900px -150px #E0E0E0, -200px 850px #E0E0E0, 321px -765px #E0E0E0, -555px -555px #E0E0E0, 222px 999px #E0E0E0;
+            animation: animate-stars 50s linear infinite;
+        }
+        .stars2 {
+            width: 2px; height: 2px;
+            background: transparent;
+            box-shadow: 
+                246px 424px #E0E0E0, 32px 339px #E0E0E0, -413px 43px #E0E0E0, -153px 374px #E0E0E0, 411px -204px #E0E0E0, 
+                28px -35px #E0E0E0, 492px 119px #E0E0E0, -481px -135px #E0E0E0, -270px 147px #E0E0E0, 331px 406px #E0E0E0, 
+                -425px 335px #E0E0E0, 350px 39px #E0E0E0, 15px -486px #E0E0E0, -322px -162px #E0E0E0, -255px 479px #E0E0E0,
+                -734px -231px #E0E0E0, 567px -821px #E0E0E0, 812px 112px #E0E0E0, -399px 610px #E0E0E0, 239px -630px #E0E0E0,
+                -912px 210px #E0E0E0, 415px 715px #E0E0E0, -610px -410px #E0E0E0, 930px 431px #E0E0E0, -810px -100px #E0E0E0;
+            animation: animate-stars 100s linear infinite;
+        }
+        .stars3 {
+            width: 3px; height: 3px;
+            background: transparent;
+            box-shadow: 
+                -33px 189px #E0E0E0, 450px 203px #E0E0E0, 273px -486px #E0E0E0, -464px 229px #E0E0E0, -332px 421px #E0E0E0, 
+                42px -438px #E0E0E0, 34px 255px #E0E0E0, -13px -437px #E0E0E0, 432px 470px #E0E0E0, -121px 422px #E0E0E0, 
+                -256px -476px #E0E0E0, -392px 333px #E0E0E0, 461px -436px #E0E0E0, 219px -112px #E0E0E0, 192px 490px #E0E0E0,
+                612px -534px #E0E0E0, -700px 350px #E0E0E0, 200px -850px #E0E0E0, -721px 634px #E0E0E0, 544px -988px #E0E0E0,
+                800px 350px #E0E0E0, -300px 750px #E0E0E0, 421px -665px #E0E0E0, -455px -655px #E0E0E0, 122px 899px #E0E0E0;
+            animation: animate-stars 150s linear infinite;
+        }
+
+        /* Efek mengambang (floating) */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* CSS UNTUK NAVBAR */
+        .navbar {
+            background-color: #ffffff73;
+            color: rgba(0, 132, 255, 1);
+            padding: 10px 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+        .nav-links a {
+            text-decoration: none;
+            transition: transform 0.3s ease-in-out;
+            letter-spacing: 5px;
+            font-size: 1rem;
+            position: relative;
+        }
+        .navbar .logo {
+            padding-right: 50px;
+            letter-spacing: -7px;
+        }
+        .navbar .logo span {
+            display: inline-block;
+            transition: all 0.4s ease-in-out;
+            cursor: default;
+        }
+        .navbar .logo span:hover {
+            transform: translateY(-6px);
+        }
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        #wave-button a span {
+            position: relative;
+            display: inline-block;
+            transition: transform 1s ease-out;
+        }
+        #wave-button a {
+            transition: all 0.3s ease-in-out;
+            padding-bottom: 1px;
+        }
+        #wave-button a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0.5px;
+            background-color: rgba(0, 132, 255, 1);
+            transition: width 0.3s ease-in-out;
+        }
+        #wave-button a:hover::after {
+            width: 100%;
+        }
+        #wave-button a:hover {
+            transform: scale(1.1);
+        }
+        #wave-button a:hover span {
+            animation: wave 1.5s infinite;
+            animation-delay: calc(var(--i) * 0.1s);
+        }
+
+        /* Styling untuk main content agar menengahkan tanpa mengganggu navbar */
+        main {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 80px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar md:grid md:grid-cols-[auto_1fr_auto] items-center backdrop-blur-sm">
+        <div class="flex flex-row items-center"> <img src="assets/logo.svg" alt="logo" class="w-10 h-10 mr-3"> <div class="logo font-stretchPro uppercase text-[1.5rem] border-r-2 justify-self-start space-x-2"> <span>J</span><span>l</span><span>u</span><span>v</span> </div> </div> <div class="nav-links font-romantics flex flex-col md:flex-row gap-5 md:gap-[3rem] justify-self-center" id="wave-button"> <a href="/homepage.html#about">About</a> <a href="/homepage.html#gallery">Gallery</a> <a href="/journey.html">Journey</a> <a href="https://www.notion.so/Home-256732faf4428068b54ce4ac45be698a?source=copy_link">Notion</a> <a href="/birthday.html">PressMe</a> </div> <div class="justify-self-end"> <a href=""><img src="/assets/avatar.jpg" alt="" class="rounded-full overflow-hidden w-10 h-10 hover:scale-125 transition-transform ease-in-out duration-500"></a> </div>
+    </header>
+
+    <main class="text-white">
+        <div class="stars-container">
+            <div class="stars1"></div>
+            <div class="stars2"></div>
+            <div class="stars3"></div>
+        </div>
+
+        <div class="text-center p-8 md:p-12 rounded-2xl backdrop-blur-md bg-white/10 border border-white/20 shadow-lg"
+             style="animation: float 6s ease-in-out infinite;">
+            
+            <h1 class="font-stretchPro text-4xl md:text-7xl uppercase tracking-widest text-blue-800 text-shadow">
+                Coming Soon
+            </h1>
+            
+            <p class="font-romantics text-lg md:text-2xl mt-4 text-gray-700 tracking-[5px]">
+                Something awesome is on its way!
+            </p>
+
+            <div id="countdown" class="flex justify-center gap-4 md:gap-8 mt-10">
+                <div>
+                    <span id="days" class="text-4xl md:text-6xl font-bold text-blue-900">00</span>
+                    <span class="block text-sm text-blue-700">Days</span>
+                </div>
+                <div>
+                    <span id="hours" class="text-4xl md:text-6xl font-bold text-blue-900">00</span>
+                    <span class="block text-sm text-blue-700">Hours</span>
+                </div>
+                <div>
+                    <span id="minutes" class="text-4xl md:text-6xl font-bold text-blue-900">00</span>
+                    <span class="block text-sm text-blue-700">Minutes</span>
+                </div>
+                <div>
+                    <span id="seconds" class="text-4xl md:text-6xl font-bold text-blue-900">00</span>
+                    <span class="block text-sm text-blue-700">Seconds</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // SCRIPT NAVBAR
+            const navLinks = document.querySelectorAll('#wave-button a');
+            navLinks.forEach(link => {
+                const text = link.textContent.trim();
+                link.innerHTML = '';
+                text.split('').forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.style.setProperty('--i', index);
+                    link.appendChild(span);
+                });
+            });
+
+            // Script Countdown Timer
+            const targetDate = new Date('Dec 31, 2025 23:59:59').getTime();
+            const countdownFunction = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById('days').innerText = String(days).padStart(2, '0');
+                document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+
+                if (distance < 0) {
+                    clearInterval(countdownFunction);
+                    document.getElementById('countdown').innerHTML = "<div class='w-full text-2xl font-romantics text-blue-900'>We are live!</div>";
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

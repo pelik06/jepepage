@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEPEPAGE | BIRTHDAY</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
+
+    <style>
+        /* Impor font Anda */
+        @font-face {
+            font-family: 'StretchPro';
+            src: url('fonts/StretchPro.otf') format('opentype');
+        }
+        @font-face {
+            font-family: 'NewRomantics';
+            src: url('fonts/ROMANTIC.TTF') format('truetype');
+        }
+        .font-stretchPro { font-family: 'StretchPro', sans-serif; }
+        .font-romantics { font-family: 'NewRomantics', sans-serif; }
+        
+        /* Gaya Navbar Anda */
+        .navbar {
+            background-color: #ffffff73; color: rgba(0, 132, 255, 1);
+            padding: 10px 5%; position: fixed; width: 100%; z-index: 1000;
+        }
+        /* ... (CSS Navbar lainnya tetap sama) ... */
+        .nav-links a { text-decoration: none; transition: transform 0.3s ease-in-out; letter-spacing: 5px; font-size: 1rem; position: relative; }
+        .navbar .logo { padding-right: 50px; letter-spacing: -7px; }
+        .navbar .logo span { display: inline-block; transition: all 0.4s ease-in-out; cursor: default; }
+        .navbar .logo span:hover { transform: translateY(-6px); }
+        @keyframes wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        #wave-button a span { position: relative; display: inline-block; transition: transform 1s ease-out; }
+        #wave-button a { transition: all 0.3s ease-in-out; padding-bottom: 1px; }
+        #wave-button a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 0.5px; background-color: rgba(0, 132, 255, 1); transition: width 0.3s ease-in-out; }
+        #wave-button a:hover::after { width: 100%; }
+        #wave-button a:hover { transform: scale(1.1); }
+        #wave-button a:hover span { animation: wave 1.5s infinite; animation-delay: calc(var(--i) * 0.1s); }
+
+        /* Gaya Halaman Utama */
+        body, html {
+            margin: 0; padding: 0;
+            background: linear-gradient(45deg, #FFCC70, #C850C0, #4158D0);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center;
+            background: linear-gradient(45deg, #4158D0, #C850C0, #FFCC70);
+            color: white;
+        }
+        
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-20px); } 60% { transform: translateY(-10px); } }
+        .scroll-down { position: absolute; bottom: 30px; animation: bounce 2s infinite; }
+
+        /* --- PERUBAHAN DI STORY SECTION --- */
+        .story-section {
+            width: 100%;
+            overflow: hidden; /* Sembunyikan kartu yang keluar dari layar */
+        }
+        .story-track {
+            display: flex; /* Membuat kartu berjajar horizontal */
+            width: fit-content; /* Lebar container sesuai total lebar kartu */
+        }
+        .story-card {
+            width: 100vw; /* Setiap kartu memenuhi lebar layar */
+            height: 100vh; /* Setiap kartu memenuhi tinggi layar */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0; /* Mencegah kartu menyusut */
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+        .story-card-content {
+            padding: 2rem 2.5rem; border-radius: 1rem; max-width: 600px;
+            text-align: center; color: white; background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .photo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; }
+        .photo-gallery img { width: 100%; height: 100%; object-fit: cover; border-radius: 0.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+
+        /* Finale Section */
+        .finale-section {
+            height: 100vh; display: flex; justify-content: center;
+            align-items: center; text-align: center;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	        background-size: 400% 400%;	animation: gradient 15s ease infinite;
+            color: white; position: relative; z-index: 5;
+        }
+        @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .confetti-button {
+            margin-top: 2rem; padding: 1rem 2rem; font-size: 1.2rem;
+            background-color: white; color: #e73c7e; border: none;
+            border-radius: 50px; cursor: pointer; transition: transform 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .confetti-button:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body>
+    <header class="navbar md:grid md:grid-cols-[auto_1fr_auto] items-center backdrop-blur-sm">
+        <div class="flex flex-row items-center"> <img src="assets/logo.svg" alt="logo" class="w-10 h-10 mr-3"> <div class="logo font-stretchPro uppercase text-[1.5rem] border-r-2 justify-self-start space-x-2"> <span>J</span><span>l</span><span>u</span><span>v</span> </div> </div> <div class="nav-links font-romantics flex flex-col md:flex-row gap-5 md:gap-[3rem] justify-self-center" id="wave-button"> <a href="/homepage.html#about">About</a> <a href="/homepage.html#gallery">Gallery</a> <a href="/journey.html">Journey</a> <a href="https://www.notion.so/Home-256732faf4428068b54ce4ac45be698a?source=copy_link">Notion</a> <a href="/birthday.html">PressMe</a> </div> <div class="justify-self-end"> <a href=""><img src="/assets/avatar.jpg" alt="" class="rounded-full overflow-hidden w-10 h-10 hover:scale-125 transition-transform ease-in-out duration-500"></a> </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="intro-content">
+                <h1 class="font-stretchPro text-5xl md:text-8xl uppercase tracking-widest">Happy Birthday,</h1>
+                <p class="font-romantics text-3xl md:text-5xl mt-4 tracking-[8px]">Jessica Patricia a.k.a. jepepi</p>
+            </div>
+            <div class="scroll-down">
+                <span class="font-romantics tracking-[5px]">Scroll me!</span>
+                <svg class="w-8 h-8 mx-auto mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <div class="story-track">
+                <div class="story-card">
+                    <div class="story-card-content">
+                        <h2 class="font-romantics text-4xl mb-4 tracking-[4px]">A Special Day</h2>
+                        <p class="text-lg">
+                            Today is your special day! Pada hari ini, bayiku yang gemoy banget udah nambah umur ヽ(￣ω￣(￣ω￣〃)ゝ
+                            <br> <br>
+                            To commemorate this day, pelik udah siapin sesuatu yang special buat jepe ~
+                        </p>
+                    </div>
+                </div>
+                <div class="story-card">
+                     <div class="story-card-content">
+                        <h2 class="font-romantics text-4xl mb-4 tracking-[4px]">Our Memories</h2>
+                        <p class="text-lg">Selama setahun ini, kita udah bikin banyak memories bareng~
+                            <br>
+                            ini bagian-bagian favorit pelik (´▽`ʃ♡ƪ)</p>
+                        <div class="photo-gallery text-sm pb-2">
+                            <div class="space-y-2">
+                                <img src="assets/mem2.jpg" alt="Kenangan 1">
+                                <span>Nontonin jepe ngambek</span>
+                            </div>
+                            <div class="space-y-2">
+                                <img src="assets/mem3.jpg" alt="Kenangan 2">
+                                <span>Christmas dinner bareng</span>
+                            </div>
+                            <div class="space-y-2">
+                                <img src="assets/mem1.jpg" alt="Kenangan 3">
+                                <span>WGG bareng (●'◡'●)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <div class="story-card-content">
+                        <h2 class="font-romantics text-4xl mb-4 tracking-[4px]">My Wish For You</h2>
+                        <p class="text-lg">
+                            My wish for jepe itu biar jepe bisa tumbuh makin dewasa dan makin handal dalam mengambil keputusan, bisa lebih tegas dan yang paling penting bisa makin sayang sama pelik hehehehe 
+                            <br>(*￣▽￣*)ブ
+                            <br>
+                            <br>
+                            Buat kedepannya semoga jepe bisa dilancarkan dalam semua pekerjaannya dan pelik bakal terus temenin dan support jepe all along the way!
+                        </p>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <div class="story-card-content">
+                        <h2 class="font-romantics text-4xl mb-4 tracking-[4px]">And one more thing...</h2>
+                        <p class="text-lg">Never stop being the awesome person that you are. Happy birthday once again!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="finale-section">
+            <div class="finale-content">
+                <h1 class="font-stretchPro text-4xl md:text-7xl uppercase">Make a Wish!</h1>
+                <p class="font-romantics text-2xl mt-2 tracking-[5px]">Dan tiup lilinnya...</p>
+                <button id="confetti-btn" class="confetti-button font-romantics tracking-[3px]">🎉 Boom! 🎉</button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Setup Lenis untuk Smooth Scroll
+        const lenis = new Lenis();
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time)=>{ lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
+        
+        // Script Navbar Anda
+        const navLinks = document.querySelectorAll('#wave-button a');
+        navLinks.forEach(link => {
+            const text = link.textContent.trim();
+            link.innerHTML = '';
+            text.split('').forEach((char, index) => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.style.animationDelay = `${index * 0.1}s`;
+                link.appendChild(span);
+            });
+        });
+
+        // --- ANIMASI BARU UNTUK HALAMAN LENGKAP ---
+
+        // 1. Animasi Intro (Tetap sama)
+        gsap.from(".intro-content", { duration: 1.5, y: 50, opacity: 0, ease: "power3.out" });
+
+        // 2. Animasi Kartu Horizontal (Logika Baru)
+        const storyTrack = document.querySelector(".story-track");
+        const cards = gsap.utils.toArray(".story-card");
+        
+        // Animasi untuk menggeser track kartu secara horizontal
+        gsap.to(storyTrack, {
+            x: () => -(storyTrack.scrollWidth - window.innerWidth), // Geser sejauh total lebar track dikurangi lebar layar
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".story-section",
+                pin: true,   // "Pin" bagian ini selama animasi berjalan
+                scrub: 1,    // Animasi terikat dengan scroll (nilai 1 membuatnya lebih responsif)
+                end: () => "+=" + (storyTrack.scrollWidth - window.innerWidth), // Akhir trigger
+            }
+        });
+        
+        // 3. Logika Tombol Confetti (Tetap sama)
+        const confettiBtn = document.getElementById('confetti-btn');
+        confettiBtn.addEventListener('click', () => {
+            confetti({ particleCount: 300, spread: 130, origin: { y: 0.6 } });
+        });
+    </script>
+</body>
+</html>
