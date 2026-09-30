@@ -403,16 +403,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const storedSessionJSON = localStorage.getItem('userSession');
-            let sessionData = null;
-            if (storedSessionJSON) {
-                sessionData = JSON.parse(storedSessionJSON);
-            }
-            if (sessionData && sessionData.isLoggedIn === true) {
-            } else {
-                window.location.href = 'login.html';
-            }
-
             const navLinks = document.querySelectorAll('#wave-button a');
             navLinks.forEach(link => {
                 const text = link.textContent.trim();
