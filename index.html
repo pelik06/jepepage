@@ -235,7 +235,7 @@
 </head>
 <body>
 
-    <div class="h-screen w-screen flex items-center justify-center backdrop-blur-sm">
+    <!-- <div class="h-screen w-screen flex items-center justify-center backdrop-blur-sm">
         <div class="auth-container flex flex-col items-center justify-center gap-2">
             <p class="font-codigra uppercase text-[3rem] text-slate-700">Login</p>
             <button id="wave-button" class="font-romantics tracking-[5px] px-4 py-2 bg-blue-300 text-white rounded inline-block">
@@ -262,76 +262,78 @@
                 <button type="submit" class="submit-btn">Sign In</button>
             </form>
         </div>
-    </div>
+    </div> -->
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const waveButton = document.getElementById('wave-button');
-            const text = waveButton.textContent.trim();
-            waveButton.innerHTML = '';
-            text.split('').forEach((char, index) => {
-                const span = document.createElement('span');
-                span.textContent = char === ' ' ? '\u00A0' : char;
-                span.style.setProperty('--i', index);
-                waveButton.appendChild(span);
-            });
-            // <<< [1] TENTUKAN AKUN HARDCODE DI SINI
-            const HARDCODED_EMAIL = 'princessjepzsies@gmail.com';
-            const HARDCODED_PASSWORD = 'bibibubu1423091';
+            window.location.href = "homepage.html";
 
-            const openModalBtn = document.getElementById('wave-button');
-            const closeModalBtn = document.getElementById('close-modal-btn');
-            const modalContainer = document.getElementById('login-modal-container');
-            const loginForm = document.getElementById('login-form');
+            // const waveButton = document.getElementById('wave-button');
+            // const text = waveButton.textContent.trim();
+            // waveButton.innerHTML = '';
+            // text.split('').forEach((char, index) => {
+            //     const span = document.createElement('span');
+            //     span.textContent = char === ' ' ? '\u00A0' : char;
+            //     span.style.setProperty('--i', index);
+            //     waveButton.appendChild(span);
+            // });
+            // // <<< [1] TENTUKAN AKUN HARDCODE DI SINI
+            // const HARDCODED_EMAIL = 'princessjepzsies@gmail.com';
+            // const HARDCODED_PASSWORD = 'bibibubu1423091';
 
-            function openModal() {
-                modalContainer.classList.add('show');
-            }
+            // const openModalBtn = document.getElementById('wave-button');
+            // const closeModalBtn = document.getElementById('close-modal-btn');
+            // const modalContainer = document.getElementById('login-modal-container');
+            // const loginForm = document.getElementById('login-form');
 
-            function closeModal() {
-                modalContainer.classList.remove('show');
-            }
+            // function openModal() {
+            //     modalContainer.classList.add('show');
+            // }
 
-            openModalBtn.addEventListener('click', openModal);
-            closeModalBtn.addEventListener('click', closeModal);
+            // function closeModal() {
+            //     modalContainer.classList.remove('show');
+            // }
 
-            modalContainer.addEventListener('click', (event) => {
-                if (event.target === modalContainer) {
-                    closeModal();
-                }
-            });
+            // openModalBtn.addEventListener('click', openModal);
+            // closeModalBtn.addEventListener('click', closeModal);
 
-            window.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && modalContainer.classList.contains('show')) {
-                    closeModal();
-                }
-            });
+            // modalContainer.addEventListener('click', (event) => {
+            //     if (event.target === modalContainer) {
+            //         closeModal();
+            //     }
+            // });
 
-            // <<< [2] UBAH LOGIKA PENANGANAN FORM SUBMIT
-            loginForm.addEventListener('submit', (event) => {
-                event.preventDefault(); // Mencegah reload halaman
+            // window.addEventListener('keydown', (event) => {
+            //     if (event.key === 'Escape' && modalContainer.classList.contains('show')) {
+            //         closeModal();
+            //     }
+            // });
 
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
+            // // <<< [2] UBAH LOGIKA PENANGANAN FORM SUBMIT
+            // loginForm.addEventListener('submit', (event) => {
+            //     event.preventDefault(); // Mencegah reload halaman
 
-                // Periksa apakah email dan password cocok dengan data hardcode
-                if (email === HARDCODED_EMAIL && password === HARDCODED_PASSWORD) {
-                    const userSession = {
-                        isLoggedIn: true,
-                        email: email,
-                        loginTime: new Date() // Menyimpan waktu login sebagai contoh
-                    };
+            //     const email = document.getElementById('email').value;
+            //     const password = document.getElementById('password').value;
 
-                    // 2. Simpan objek tersebut ke localStorage sebagai string JSON
-                    localStorage.setItem('userSession', JSON.stringify(userSession));
-                    window.location.href = "homepage.html";
-                    closeModal();      // Tutup modal
-                    loginForm.reset(); // Kosongkan isi form
-                } else {
-                    // Jika tidak cocok, tampilkan pesan error
-                    alert('Email atau password salah. Silakan coba lagi.');
-                }
-            });
+            //     // Periksa apakah email dan password cocok dengan data hardcode
+            //     if (email === HARDCODED_EMAIL && password === HARDCODED_PASSWORD) {
+            //         const userSession = {
+            //             isLoggedIn: true,
+            //             email: email,
+            //             loginTime: new Date() // Menyimpan waktu login sebagai contoh
+            //         };
+
+            //         // 2. Simpan objek tersebut ke localStorage sebagai string JSON
+            //         localStorage.setItem('userSession', JSON.stringify(userSession));
+            //         window.location.href = "homepage.html";
+            //         closeModal();      // Tutup modal
+            //         loginForm.reset(); // Kosongkan isi form
+            //     } else {
+            //         // Jika tidak cocok, tampilkan pesan error
+            //         alert('Email atau password salah. Silakan coba lagi.');
+            //     }
+            // });
         });
     </script>
 </body>
